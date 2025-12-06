@@ -1,0 +1,7 @@
+{
+  "name": "Nassau County Official Portal",
+  "description": "The official digital portal for Nassau County, providing residents, businesses, and visitors with access to government services, news, and resources.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
