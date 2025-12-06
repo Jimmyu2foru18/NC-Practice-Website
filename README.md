@@ -25,15 +25,13 @@ React-based web portal for Nassau County services, government information, and c
 3.  **Set up Environment Variables**
     Create a `.env` file in the root directory:
     ```
-    API_KEY=your_google_gemini_api_key_
+    API_KEY=your_google_gemini_api_key
     ```
 
 4.  **Run the development server**
     ```bash
     npm run dev
     ```
-
-##  Deployment
 
 ### Tech Stack
 - **React**
