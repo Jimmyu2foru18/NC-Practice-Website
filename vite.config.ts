@@ -5,7 +5,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, (process as any).cwd(), '');
   return {
     plugins: [react()],
-    base: './', // Relative base path ensures assets load correctly on GitHub Pages regardless of repo name
+    // Use relative base path so it adapts to whatever the repo name is on GitHub Pages
+    base: './', 
     define: {
       'process.env.API_KEY': JSON.stringify(env.API_KEY)
     }
