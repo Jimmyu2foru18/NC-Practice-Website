@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Search, Bell, Facebook, Twitter, Instagram, ChevronDown, MapPin, Phone, FileText, Calendar, Compass, User, Building, Gavel, Sparkles, History as HistoryIcon, Train } from 'lucide-react';
+import { Menu, X, Search, Bell, Facebook, Twitter, Instagram, ChevronDown, MapPin, Phone, FileText, Compass, User, Building, Gavel, Sparkles, History as HistoryIcon, Train } from 'lucide-react';
 import { searchSite } from '../services/geminiService';
 
 interface LayoutProps {
@@ -20,6 +20,7 @@ const megaMenuData: Record<string, { label: string; path: string; desc: string; 
     { label: 'Pay Taxes', path: '/services', desc: 'Property Tax Portal' },
     { label: 'Public Records', path: '/services', desc: 'Deeds, Mortgages & FOIL' },
     { label: 'Permits & Licensing', path: '/services', desc: 'Building & Business' },
+    { label: 'School Districts', path: '/schools', desc: 'Education Directory' },
     { label: 'Social Services', path: '/emergency', desc: 'Assistance Programs' },
   ],
   Residents: [
@@ -81,22 +82,22 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Top Bar */}
       <div className="bg-blue-950 text-white text-xs py-2 px-4 flex justify-between items-center z-50 relative border-b border-blue-900">
         <div className="flex items-center space-x-6">
-          <span className="flex items-center hover:text-amber-400 transition cursor-default"><Phone className="w-3 h-3 mr-2" /> 516-571-3000</span>
-          <span className="hidden sm:flex items-center hover:text-amber-400 transition cursor-default"><MapPin className="w-3 h-3 mr-2" /> 1550 Franklin Ave, Mineola, NY</span>
+          <span className="flex items-center hover:text-amber-400 transition cursor-default"><Phone className="w-3 h-3 mr-2 text-amber-400" /> 516-571-3000</span>
+          <span className="hidden sm:flex items-center hover:text-amber-400 transition cursor-default"><MapPin className="w-3 h-3 mr-2 text-amber-400" /> 1550 Franklin Ave, Mineola, NY</span>
         </div>
         <div className="flex items-center space-x-4">
           <Link to="/contact" className="hover:text-amber-400 transition font-medium">Contact</Link>
-          <Link to="/emergency" className="hover:text-red-400 font-bold transition flex items-center"><Bell className="w-3 h-3 mr-1" /> Emergency</Link>
+          <Link to="/emergency" className="hover:text-red-400 font-bold transition flex items-center text-amber-100"><Bell className="w-3 h-3 mr-1" /> Emergency</Link>
           <div className="hidden md:flex space-x-3 border-l border-blue-800 pl-4">
-            <Facebook className="w-3 h-3 cursor-pointer hover:text-blue-400 transition" />
-            <Twitter className="w-3 h-3 cursor-pointer hover:text-blue-400 transition" />
-            <Instagram className="w-3 h-3 cursor-pointer hover:text-pink-400 transition" />
+            <Facebook className="w-3 h-3 cursor-pointer hover:text-blue-400 transition opacity-80 hover:opacity-100" />
+            <Twitter className="w-3 h-3 cursor-pointer hover:text-blue-400 transition opacity-80 hover:opacity-100" />
+            <Instagram className="w-3 h-3 cursor-pointer hover:text-pink-400 transition opacity-80 hover:opacity-100" />
           </div>
         </div>
       </div>
 
       {/* Main Header with Mega Menu */}
-      <header className="bg-white shadow-lg sticky top-0 z-40 border-b-4 border-amber-500">
+      <header className="bg-white shadow-md sticky top-0 z-[50] border-b-4 border-amber-500">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-24">
             {/* Logo Area */}
@@ -104,7 +105,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <img 
                 src="https://e7.pngegg.com/pngimages/876/46/png-clipart-freeport-suffolk-county-mineola-county-comptroller-others-emblem-logo.png" 
                 alt="Nassau County Seal" 
-                className="w-16 h-16 object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-300"
+                className="w-16 h-16 object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300"
               />
               <div className="flex flex-col">
                 <span className="text-2xl md:text-3xl font-extrabold text-blue-900 leading-none tracking-tight font-serif">NASSAU COUNTY</span>
@@ -114,7 +115,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             {/* Desktop Nav */}
             <nav className="hidden xl:flex items-center h-full">
-              <Link to="/" className="px-4 py-2 font-bold text-slate-600 hover:text-blue-900 transition relative group">
+              <Link to="/" className="px-4 py-2 font-bold text-slate-700 hover:text-blue-900 transition relative group text-sm uppercase tracking-wide">
                 Home
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-500 transition-all group-hover:w-full"></span>
               </Link>
@@ -128,8 +129,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   onMouseLeave={handleMouseLeave}
                 >
                   <button 
-                    className={`px-4 py-2 font-bold flex items-center transition-colors relative group ${
-                      activeDropdown === category ? 'text-blue-700' : 'text-slate-600 hover:text-blue-900'
+                    className={`px-4 py-2 font-bold flex items-center transition-colors relative group text-sm uppercase tracking-wide ${
+                      activeDropdown === category ? 'text-blue-700' : 'text-slate-700 hover:text-blue-900'
                     }`}
                   >
                     {category} <ChevronDown className={`w-4 h-4 ml-1 transition-transform ${activeDropdown === category ? 'rotate-180' : ''}`} />
@@ -138,7 +139,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
                   {/* Mega Menu Dropdown */}
                   {activeDropdown === category && (
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-[600px] bg-white shadow-2xl rounded-b-xl border-t border-slate-100 p-6 grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-1">
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-[600px] bg-white shadow-2xl rounded-b-xl border-t border-slate-100 p-6 grid grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-1 z-[100]">
                        {megaMenuData[category].map((item) => (
                          <Link 
                            key={item.label} 
@@ -146,12 +147,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                            className="flex items-start p-3 rounded-lg hover:bg-slate-50 transition group"
                            onClick={() => setActiveDropdown(null)}
                          >
-                           <div className="bg-blue-100 text-blue-600 p-2 rounded-lg mr-3 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                           <div className="bg-blue-50 text-blue-600 p-2 rounded-lg mr-3 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                              {item.icon ? <item.icon className="w-5 h-5" /> : <ChevronDown className="w-5 h-5 -rotate-90" />}
                            </div>
                            <div>
-                             <h4 className="font-bold text-slate-900 group-hover:text-blue-700">{item.label}</h4>
-                             <p className="text-xs text-slate-500">{item.desc}</p>
+                             <h4 className="font-bold text-slate-900 group-hover:text-blue-700 text-sm">{item.label}</h4>
+                             <p className="text-xs text-slate-500 mt-0.5">{item.desc}</p>
                            </div>
                          </Link>
                        ))}
@@ -160,12 +161,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </div>
               ))}
 
-              <Link to="/news" className="px-4 py-2 font-bold text-slate-600 hover:text-blue-900 transition relative group">
+              <Link to="/news" className="px-4 py-2 font-bold text-slate-700 hover:text-blue-900 transition relative group text-sm uppercase tracking-wide">
                 News
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-500 transition-all group-hover:w-full"></span>
               </Link>
               
-              <Link to="/about" className="px-4 py-2 font-bold text-slate-600 hover:text-blue-900 transition relative group">
+              <Link to="/about" className="px-4 py-2 font-bold text-slate-700 hover:text-blue-900 transition relative group text-sm uppercase tracking-wide">
                 About
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-500 transition-all group-hover:w-full"></span>
               </Link>
@@ -175,7 +176,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 className="ml-6 p-2.5 bg-blue-50 text-blue-900 rounded-full hover:bg-blue-100 transition shadow-sm border border-blue-200 flex items-center gap-2 group active:scale-95"
               >
                 <Search className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                <span className="text-sm font-bold pr-1">Assistant</span>
+                <span className="text-xs font-bold pr-1 uppercase tracking-wide">AI Helper</span>
               </button>
             </nav>
 
@@ -227,7 +228,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </header>
 
       {/* AI Assistant Modal */}
-      <dialog id="search-modal" className="modal p-0 rounded-2xl shadow-2xl backdrop:bg-slate-900/60 w-full max-w-3xl bg-white open:animate-in open:fade-in open:zoom-in-95 backdrop:animate-in backdrop:fade-in">
+      <dialog id="search-modal" className="modal p-0 rounded-2xl shadow-2xl backdrop:bg-slate-900/60 w-full max-w-3xl bg-white open:animate-in open:fade-in open:zoom-in-95 backdrop:animate-in backdrop:fade-in z-[1000]">
         <div className="flex flex-col md:flex-row min-h-[400px]">
           {/* Sidebar / Branding */}
           <div className="bg-gradient-to-br from-blue-900 to-blue-950 text-white p-6 md:w-1/3 flex flex-col justify-between relative overflow-hidden">

@@ -233,7 +233,10 @@ const DestinationExplorer: React.FC = () => {
                </Marker>
                
                {/* Dummy markers for dining visualization (random offsets) */}
-               <Marker position={[selectedDestination.coordinates[0] + 0.001, selectedDestination.coordinates[1] + 0.001]} icon={diningIcon}>
+               <Marker 
+                  position={[selectedDestination.coordinates[0] + 0.001, selectedDestination.coordinates[1] + 0.001] as [number, number]} 
+                  icon={diningIcon}
+               >
                   <Popup><span className="font-sans text-xs font-bold">Nearby Dining Option</span></Popup>
                </Marker>
              </MapContainer>
