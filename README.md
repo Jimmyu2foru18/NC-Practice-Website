@@ -1,4 +1,4 @@
-# Nassau County Official Portal
+# Nassau County
 
 A modern, React-based web portal for Nassau County services, government information, and community resources.
 
